@@ -1,0 +1,11 @@
+version: 3
+
+includes:
+  shared:
+    taskfile: hack/common/Taskfile_root.yaml
+    flatten: true
+    vars:
+      CODE_DIRS: '{{.ROOT_DIR}}/cmd/... {{.ROOT_DIR}}/pkg/...'
+      NAME: 'kpu'
+      REPO_NAME: 'https://github.com/Diaphteiros/kpu'
+      GENERATE_DOCS_INDEX: "true"

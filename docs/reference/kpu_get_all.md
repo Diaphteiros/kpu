@@ -1,0 +1,47 @@
+## kpu get all
+
+Get all k8s resources
+
+### Synopsis
+
+This command does what 'kubectl get all' is supposed to do:
+It gets ALL k8s resources.
+
+Use the --scope flag to control if you want to get namespace- or cluster-scoped resources (or both).
+
+Examples:
+
+	> kpu get all
+	Lists all namespace-scoped resources in the default namespace.
+
+	> kpu get all --scope cluster
+	Lists all cluster-scoped resources.
+
+
+```
+kpu get all [flags]
+```
+
+### Options
+
+```
+  -h, --help                  help for all
+  -o, --output string         Output format. Valid formats are [json, text, yaml]. (default "text")
+      --scope string          Resource scope for the command. Valid scopes are [all, cluster, namespaced]. (default "namespaced")
+      --show-managed-fields   If true, keep the managedFields when printing objects in JSON or YAML format.
+  -s, --suppress-warnings     If true, no warnings will be printed to stderr if objects of a specific kind could not be listed.
+```
+
+### Options inherited from parent commands
+
+```
+  -A, --all-namespaces      If true, the command affects all namespaces. Overwrites --namespace flag.
+      --kubeconfig string   Path to the kubeconfig file. Defaults to $KUBECONFIG or ~/.kube/config, if not set.
+  -n, --namespace string    Namespace for the cluster interaction. Defaults to namespace from kubeconfig or 'default', if not set.
+  -l, --selector strings    Selector (label query) to filter on. Supports 'exists' (<label>), 'does not exist' (!<label>), 'in' (<label>=<value1>;<value2>) and 'not in' (<label>!=<value1>;<value2>) operators. Allows multiple selectors (comma-separated or setting flag multiple times), they will be ANDed.
+```
+
+### SEE ALSO
+
+* [kpu get](kpu_get.md)	 - Get k8s resources
+

@@ -1,0 +1,16 @@
+replacements:
+  reference/kpu_inject_image.md:
+  - replace: '- <image-repo>:<image-tag>'
+    with: '- `<image-repo>:<image-tag>`'
+  - replace: '- <image-repo>@<image-digest>'
+    with: '- `<image-repo>@<image-digest>`'
+  - replace: '- :<image-tag>'
+    with: '- `:<image-tag>`'
+  - replace: '- @<image-digest>'
+    with: '- `@<image-digest>`'
+  - replace: '- <image-tag>'
+    with: '- `<image-tag>`'
+  - replace: '- <image-digest>'
+    with: '- `<image-digest>`'
+  - replace: '<image-replacement>'
+    with: '`<image-replacement>`'

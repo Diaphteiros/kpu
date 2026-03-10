@@ -1,0 +1,29 @@
+package get
+
+import (
+	"github.com/Diaphteiros/kpu/pkg/utils"
+	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
+	"github.com/spf13/cobra"
+)
+
+// variables for holding the flags
+var (
+	k8sOptions *utils.K8sInteractionOptions = &utils.K8sInteractionOptions{}
+)
+
+// GetCmd represents the get command
+var GetCmd = &cobra.Command{
+	Use:     "get",
+	Aliases: []string{"g"},
+	Short:   "Get k8s resources",
+	Long:    `A collection of enhanced 'kubectl get' commands.`,
+	GroupID: cmdgroups.ClusterInteraction,
+}
+
+func init() {
+	GetCmd.AddCommand(GetAllCmd)
+	GetCmd.AddCommand(GetResourceCmd)
+	GetCmd.AddCommand(GetSecretCmd)
+
+	utils.AddDefaultK8sInteractionFlags(GetCmd.PersistentFlags(), k8sOptions)
+}
