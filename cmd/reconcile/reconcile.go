@@ -6,13 +6,14 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Diaphteiros/kpu/pkg/utils"
-	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/utils/strings/slices"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/Diaphteiros/kpu/pkg/utils"
+	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
 )
 
 // variables for holding the flags
@@ -96,7 +97,7 @@ Examples:
 
 		var resourceNames []string
 		if len(args) > 1 {
-			resourceNames = []string{}
+			resourceNames = []string{} //nolint:prealloc
 			for _, arg := range args[1:] {
 				resourceNames = append(resourceNames, strings.Split(arg, ",")...)
 			}
@@ -137,7 +138,7 @@ Examples:
 			if len(affectedObjs) == 1 {
 				w.WriteString("resource")
 			} else {
-				w.WriteString(fmt.Sprint(len(affectedObjs)))
+				fmt.Fprint(&w, len(affectedObjs))
 				w.WriteString(" resources")
 			}
 			w.WriteString(" do not belong to one of the known api groups and will not be annotated:\n")
@@ -161,7 +162,7 @@ Examples:
 				if len(affectedObjs) == 1 {
 					p.WriteString("resource")
 				} else {
-					p.WriteString(fmt.Sprint(len(affectedObjs)))
+					fmt.Fprint(&p, len(affectedObjs))
 					p.WriteString(" resources")
 				}
 				p.WriteString(" are in group '")

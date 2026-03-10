@@ -19,3 +19,9 @@ task install
 ## Usage
 
 Check out the [usage examples](docs/usage/examples.md).
+
+## Licensing
+
+Everything within `pkg/fork` is copied from https://github.com/kubernetes/client-go and the corresponding license applies.
+
+For all other files, [this license](./LICENSE) applies.

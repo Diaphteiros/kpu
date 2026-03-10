@@ -5,10 +5,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Diaphteiros/kpu/pkg/utils"
-	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
 	"github.com/spf13/cobra"
 	"k8s.io/utils/strings/slices"
+
+	"github.com/Diaphteiros/kpu/pkg/utils"
+	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
 )
 
 // variables for holding the flags
@@ -63,7 +64,7 @@ Examples:
 
 		var resourceNames []string
 		if len(args) > 1 {
-			resourceNames = []string{}
+			resourceNames = []string{} //nolint:prealloc
 			for _, arg := range args[1:] {
 				resourceNames = append(resourceNames, strings.Split(arg, ",")...)
 			}
@@ -94,7 +95,7 @@ Examples:
 			if len(affectedResources) == 1 {
 				p.WriteString("resource:\n")
 			} else {
-				p.WriteString(fmt.Sprint(len(affectedResources)))
+				fmt.Fprint(&p, len(affectedResources))
 				p.WriteString(" resources:\n")
 			}
 			for _, obj := range affectedResources {

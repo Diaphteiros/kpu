@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"github.com/spf13/cobra"
+
 	"github.com/Diaphteiros/kpu/cmd/del"
 	"github.com/Diaphteiros/kpu/cmd/finalize"
 	"github.com/Diaphteiros/kpu/cmd/get"
@@ -10,7 +12,6 @@ import (
 	"github.com/Diaphteiros/kpu/cmd/seconds"
 	"github.com/Diaphteiros/kpu/cmd/version"
 	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
-	"github.com/spf13/cobra"
 )
 
 // RootCmd represents the base command when called without any subcommands

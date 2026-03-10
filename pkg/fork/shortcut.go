@@ -97,6 +97,8 @@ func (e shortcutExpander) RESTMappings(gk schema.GroupKind, versions ...string) 
 // First the list of potential resources will be taken from the API server.
 // Next we will append the hardcoded list of resources - to be backward compatible with old servers.
 // NOTE that the list is ordered by group priority.
+//
+//nolint:unparam
 func (e shortcutExpander) getShortcutMappings() ([]*metav1.APIResourceList, []resourceShortcuts, error) {
 	res := []resourceShortcuts{}
 	// get server resources

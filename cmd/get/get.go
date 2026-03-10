@@ -1,9 +1,10 @@
 package get
 
 import (
+	"github.com/spf13/cobra"
+
 	"github.com/Diaphteiros/kpu/pkg/utils"
 	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
-	"github.com/spf13/cobra"
 )
 
 // variables for holding the flags

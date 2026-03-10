@@ -1,8 +1,9 @@
 package kubeconfig
 
 import (
-	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
 	"github.com/spf13/cobra"
+
+	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
 )
 
 // KubeconfigCmd represents the kubeconfig command

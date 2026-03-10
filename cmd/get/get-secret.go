@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Diaphteiros/kpu/pkg/utils"
 	"github.com/spf13/cobra"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/utils/strings/slices"
 	"sigs.k8s.io/yaml"
+
+	"github.com/Diaphteiros/kpu/pkg/utils"
 )
 
 // GetSecretCmd represents the 'get resource' command
@@ -45,7 +46,7 @@ Examples:
 
 		var resourceNames []string
 		if len(args) > 0 {
-			resourceNames = []string{}
+			resourceNames = []string{} //nolint:prealloc
 			for _, arg := range args {
 				resourceNames = append(resourceNames, strings.Split(arg, ",")...)
 			}

@@ -7,12 +7,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Diaphteiros/kpu/pkg/utils"
 	openmcpproviderv1alpha1 "github.com/openmcp-project/openmcp-operator/api/provider/v1alpha1"
 	"github.com/spf13/cobra"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/Diaphteiros/kpu/pkg/utils"
 )
 
 var (
@@ -172,7 +173,7 @@ Examples:
 				utils.Fatal(1, "no %scontainers found in %s", initMod, rtype)
 			}
 
-			cIdx := -1
+			var cIdx int
 			if len(containers) == 1 {
 				cIdx = 0
 			} else {
@@ -181,7 +182,7 @@ Examples:
 				p.WriteString("Choose a container to inject the image into:\n")
 				for idx, c := range containers {
 					p.WriteString("  ")
-					p.WriteString(fmt.Sprint(idx))
+					fmt.Fprint(&p, idx)
 					p.WriteString(": ")
 					p.WriteString(c.Name)
 					p.WriteString(" - ")

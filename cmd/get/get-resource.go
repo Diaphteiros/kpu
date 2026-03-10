@@ -1,16 +1,13 @@
 package get
 
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
 	"strings"
 
-	"github.com/Diaphteiros/kpu/pkg/utils"
 	"github.com/spf13/cobra"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/utils/strings/slices"
-	"sigs.k8s.io/yaml"
+
+	"github.com/Diaphteiros/kpu/pkg/utils"
 )
 
 // GetResourceCmd represents the 'get resource' command
@@ -35,7 +32,7 @@ Examples:
 		resourceTypes := strings.Split(args[0], ",")
 		var resourceNames []string
 		if len(args) > 1 {
-			resourceNames = []string{}
+			resourceNames = []string{} //nolint:prealloc
 			for _, arg := range args[1:] {
 				resourceNames = append(resourceNames, strings.Split(arg, ",")...)
 			}
@@ -63,31 +60,7 @@ Examples:
 			}
 		}
 
-		switch output {
-		case utils.OUTPUT_TEXT:
-			t := utils.NewOutputTable[unstructured.Unstructured]()
-			if k8sOptions.AllNamespaces {
-				t.WithColumn("namespace", func(obj unstructured.Unstructured) string { return obj.GetNamespace() })
-			}
-			t.WithColumn("name", func(obj unstructured.Unstructured) string { return obj.GetName() })
-			t.WithColumn("kind", func(obj unstructured.Unstructured) string { return obj.GetObjectKind().GroupVersionKind().Kind }).
-				WithColumn("group", func(obj unstructured.Unstructured) string { return obj.GetObjectKind().GroupVersionKind().Group }).
-				WithColumn("version", func(obj unstructured.Unstructured) string { return obj.GetObjectKind().GroupVersionKind().Version })
-			t.WithData(objects.Items...)
-			fmt.Print(t.String())
-		case utils.OUTPUT_JSON:
-			data, err := json.MarshalIndent(objects, "", "  ")
-			if err != nil {
-				utils.Fatal(1, "error converting objects to json: %s", err.Error())
-			}
-			fmt.Println(string(data))
-		case utils.OUTPUT_YAML:
-			data, err := yaml.Marshal(objects)
-			if err != nil {
-				utils.Fatal(1, "error converting objects to yaml: %s", err.Error())
-			}
-			fmt.Println(string(data))
-		}
+		printUnstructuredObjects(output, objects)
 	},
 }
 

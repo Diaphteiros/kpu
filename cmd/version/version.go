@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/Diaphteiros/kpu/pkg/utils"
-	staticversion "github.com/Diaphteiros/kpu/pkg/version"
 	"github.com/spf13/cobra"
 	"sigs.k8s.io/yaml"
+
+	"github.com/Diaphteiros/kpu/pkg/utils"
+	staticversion "github.com/Diaphteiros/kpu/pkg/version"
 )
 
 // variables for holding the flags

@@ -114,7 +114,7 @@ func FormatDuration(d time.Duration) string {
 	sb := strings.Builder{}
 	for _, u := range []string{"years", "days", "hours", "minutes", "seconds"} {
 		if durations[u] > 0 {
-			sb.WriteString(fmt.Sprintf("%d%s", durations[u], u[:1]))
+			fmt.Fprint(&sb, durations[u], u[:1])
 		}
 	}
 	if sb.Len() == 0 {

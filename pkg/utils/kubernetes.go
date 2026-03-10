@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Diaphteiros/kpu/pkg/fork"
 	openmcpproviderv1alpha1 "github.com/openmcp-project/openmcp-operator/api/provider/v1alpha1"
 	"github.com/spf13/pflag"
 	authenticationv1 "k8s.io/api/authentication/v1"
@@ -32,6 +31,8 @@ import (
 	k8sapiv1 "k8s.io/client-go/tools/clientcmd/api/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/Diaphteiros/kpu/pkg/fork"
 )
 
 const (
@@ -235,7 +236,7 @@ func (k *Kubeconfig) GetNamespaces(ctx context.Context) ([]corev1.Namespace, err
 func (k *Kubeconfig) GetAllResources(ctx context.Context, scope Scope, k8sOptions *K8sInteractionOptions) ([]unstructured.Unstructured, []error) {
 	apis, err := k.DiscoverAPIResources()
 	if err != nil {
-		Fatal(1, err.Error())
+		Fatal(1, "%s", err.Error())
 	}
 	errs := []error{}
 	objects := []unstructured.Unstructured{}
@@ -335,7 +336,7 @@ func (k *Kubeconfig) ListResources(ctx context.Context, resourceTypes []string, 
 		}
 	}
 
-	finalObjs := []unstructured.Unstructured{}
+	finalObjs := []unstructured.Unstructured{} //nolint:prealloc
 	for _, objs := range objects {
 		finalObjs = append(finalObjs, objs...)
 	}
@@ -348,7 +349,7 @@ func (k *Kubeconfig) ConstructListOptions(opts *K8sInteractionOptions) []client.
 	if len(opts.LabelSelector) > 0 {
 		ls, err := ParseLabelSelectors(opts.LabelSelector)
 		if err != nil {
-			Fatal(1, err.Error())
+			Fatal(1, "%s", err.Error())
 		}
 		res = append(res, client.MatchingLabelsSelector{Selector: ls})
 	}

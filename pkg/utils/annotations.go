@@ -16,7 +16,7 @@ func (k *Kubeconfig) PatchAnnotations(ctx context.Context, obj client.Object, an
 	if oldAnns != nil {
 		allSet := true
 		for k, v := range anns {
-			if oldV, ok := oldAnns[k]; !(ok && oldV == v) {
+			if oldV, ok := oldAnns[k]; !ok || oldV != v {
 				allSet = false
 				break
 			}

@@ -41,7 +41,7 @@ func (k *Kubeconfig) RemoveFinalizers(ctx context.Context, obj client.Object, fi
 		patchb.WriteString("[")
 		for i, fidx := range fis {
 			patchb.WriteString("{\"op\": \"remove\", \"path\": \"/metadata/finalizers/")
-			patchb.WriteString(fmt.Sprint(fidx))
+			fmt.Fprint(&patchb, fidx)
 			patchb.WriteString("\"}")
 			if i < len(fis)-1 {
 				patchb.WriteString(", ")

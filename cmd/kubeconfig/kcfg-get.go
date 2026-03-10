@@ -6,9 +6,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/Diaphteiros/kpu/pkg/utils"
 	"github.com/spf13/cobra"
 	"sigs.k8s.io/yaml"
+
+	"github.com/Diaphteiros/kpu/pkg/utils"
 )
 
 var (
@@ -83,7 +84,9 @@ Note that this can remove cluster access information from your current kubeconfi
 		}
 
 		if replace {
-			os.WriteFile(k.Path, kcfgData, os.ModePerm)
+			if err := os.WriteFile(k.Path, kcfgData, os.ModePerm); err != nil {
+				utils.Fatal(1, "error writing kubeconfig to file: %s", err.Error())
+			}
 		} else {
 			fmt.Println(string(kcfgData))
 		}
