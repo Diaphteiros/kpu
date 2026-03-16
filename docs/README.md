@@ -9,6 +9,7 @@
 - [kpu from-seconds](reference/kpu_from-seconds.md)
 - [kpu get](reference/kpu_get.md)
 - [kpu get all](reference/kpu_get_all.md)
+- [kpu get permissions](reference/kpu_get_permissions.md)
 - [kpu get resource](reference/kpu_get_resource.md)
 - [kpu get secret](reference/kpu_get_secret.md)
 - [kpu inject](reference/kpu_inject.md)

@@ -25,6 +25,7 @@ func init() {
 	GetCmd.AddCommand(GetAllCmd)
 	GetCmd.AddCommand(GetResourceCmd)
 	GetCmd.AddCommand(GetSecretCmd)
+	GetCmd.AddCommand(GetPermissionsCmd)
 
 	utils.AddDefaultK8sInteractionFlags(GetCmd.PersistentFlags(), k8sOptions)
 }
