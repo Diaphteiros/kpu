@@ -43,6 +43,21 @@ items:
       ...
 ```
 
+### kpu get permissions
+
+`kpu get permissions` (or, shorter `kpu get perms` or `kpu get p`) uses kubernetes' `SelfSubjectRulesReview` API to list all resources and all actions the current user is allowed to do with them.
+
+**Example:**
+```
+> kpu get perms
+Permissions for resources in namespace 'default':
+API GROUP               RESOURCE                   VERBS    RESOURCE NAMES
+*                       *                          *
+authentication.k8s.io   selfsubjectreviews         create
+authorization.k8s.io    selfsubjectaccessreviews   create
+authorization.k8s.io    selfsubjectrulesreviews    create
+```
+
 ### kpu finalize
 
 Probably the most interesting subcommand, `kpu finalize` is a powerful tool for removing finalizers from resources in kubernetes. It can remove all or only specific finalizers from one, multiple, or all resources of a specific kind, across namespaces.

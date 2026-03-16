@@ -20,6 +20,7 @@ A collection of enhanced 'kubectl get' commands.
 
 * [kpu](kpu.md)	 - Improve your k8s cluster interactions
 * [kpu get all](kpu_get_all.md)	 - Get all k8s resources
+* [kpu get permissions](kpu_get_permissions.md)	 - Get the permissions of the current user
 * [kpu get resource](kpu_get_resource.md)	 - Get the specified k8s resources
 * [kpu get secret](kpu_get_secret.md)	 - Get the specified secrets
 
