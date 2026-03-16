@@ -8,6 +8,14 @@ Get the permissions of the current user.
 
 This command uses the SelfSubjectRulesReview API to determine the permissions of the current user and prints them.
 
+Examples:
+
+	> kpu get permissions
+	Returns all permissions the current user has for the default namespace, formatted as a table.
+
+	> kpu get permissions -A -o json
+	Returns all permissions the current user has for all namespaces, formatted as JSON.
+
 
 ```
 kpu get permissions [flags]

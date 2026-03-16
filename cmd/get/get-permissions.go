@@ -16,12 +16,20 @@ import (
 // GetPermissionsCmd represents the 'get permissions' command
 var GetPermissionsCmd = &cobra.Command{
 	Use:     "permissions",
-	Aliases: []string{"p", "perm", "perms"},
+	Aliases: []string{"permission", "perms", "perm", "p"},
 	Args:    cobra.NoArgs,
 	Short:   "Get the permissions of the current user",
 	Long: `Get the permissions of the current user.
 
 This command uses the SelfSubjectRulesReview API to determine the permissions of the current user and prints them.
+
+Examples:
+
+	> kpu get permissions
+	Returns all permissions the current user has for the default namespace, formatted as a table.
+
+	> kpu get permissions -A -o json
+	Returns all permissions the current user has for all namespaces, formatted as JSON.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		k, err := utils.LoadKubeconfig(k8sOptions.KubeconfigPath)
