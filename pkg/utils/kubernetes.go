@@ -89,10 +89,11 @@ func init() {
 }
 
 type K8sInteractionOptions struct {
-	KubeconfigPath string
-	Namespace      string
-	AllNamespaces  bool
-	LabelSelector  []string
+	KubeconfigPath      string
+	Namespace           string
+	AllNamespaces       bool
+	LabelSelector       []string
+	ImpersonationConfig rest.ImpersonationConfig
 }
 
 // Kubeconfig stores information loaded from the kubeconfig.
@@ -116,10 +117,22 @@ func AddDefaultK8sInteractionFlags(fs *pflag.FlagSet, ko *K8sInteractionOptions)
 	fs.StringSliceVarP(&ko.LabelSelector, "selector", "l", nil, "Selector (label query) to filter on. Supports 'exists' (<label>), 'does not exist' (!<label>), 'in' (<label>=<value1>;<value2>) and 'not in' (<label>!=<value1>;<value2>) operators. Allows multiple selectors (comma-separated or setting flag multiple times), they will be ANDed.")
 }
 
+// AddK8sImpersonationFlags adds default flags for impersonation to the given flagset.
+// The flags bind the ImpersonationConfig in the given K8sInteractionOptions struct.
+func AddK8sImpersonationFlags(fs *pflag.FlagSet, ko *K8sInteractionOptions) {
+	fs.StringVar(&ko.ImpersonationConfig.UserName, "as", "", "Username to impersonate for the operation. User could be a regular user or a service account in a namespace.")
+	fs.StringSliceVar(&ko.ImpersonationConfig.Groups, "as-group", nil, "Group to impersonate for the operation, this flag can be repeated to specify multiple groups.")
+	fs.StringVar(&ko.ImpersonationConfig.UID, "as-uid", "", "UID to impersonate for the operation.")
+}
+
 // LoadKubeconfig loads a kubeconfig from the given path.
 // If the path is empty, it is defaulted to the value of the KUBECONFIG env var first,
 // and then to $HOME/.kube/config, if it is still empty.
 func LoadKubeconfig(kcfgPath string) (*Kubeconfig, error) {
+	return LoadKubeconfigWithImpersonation(kcfgPath, rest.ImpersonationConfig{})
+}
+
+func LoadKubeconfigWithImpersonation(kcfgPath string, impersonationConfig rest.ImpersonationConfig) (*Kubeconfig, error) {
 	if kcfgPath == "" {
 		// 1st fallback: KUBECONFIG env var
 		kcfgPath = os.Getenv("KUBECONFIG")
@@ -147,6 +160,7 @@ func LoadKubeconfig(kcfgPath string) (*Kubeconfig, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error constructing rest client: %w", err)
 	}
+	res.RESTConfig.Impersonate = impersonationConfig
 	res.Raw, err = kcfg.MergedRawConfig()
 	if err != nil {
 		return nil, fmt.Errorf("error constructing merged raw kubeconfig: %w", err)

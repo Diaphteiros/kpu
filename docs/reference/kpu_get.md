@@ -10,6 +10,9 @@ A collection of enhanced 'kubectl get' commands.
 
 ```
   -A, --all-namespaces      If true, the command affects all namespaces. Overwrites --namespace flag.
+      --as string           Username to impersonate for the operation. User could be a regular user or a service account in a namespace.
+      --as-group strings    Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+      --as-uid string       UID to impersonate for the operation.
   -h, --help                help for get
       --kubeconfig string   Path to the kubeconfig file. Defaults to $KUBECONFIG or ~/.kube/config, if not set.
   -n, --namespace string    Namespace for the cluster interaction. Defaults to namespace from kubeconfig or 'default', if not set.

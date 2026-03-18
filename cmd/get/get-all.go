@@ -39,7 +39,7 @@ Examples:
 	Run: func(cmd *cobra.Command, args []string) {
 		ValidateGetAllCommand()
 
-		k, err := utils.LoadKubeconfig(k8sOptions.KubeconfigPath)
+		k, err := utils.LoadKubeconfigWithImpersonation(k8sOptions.KubeconfigPath, k8sOptions.ImpersonationConfig)
 		if err != nil {
 			utils.Fatal(1, "error loading kubeconfig: %s", err.Error())
 		}

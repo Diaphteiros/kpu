@@ -30,9 +30,12 @@ Examples:
 
 	> kpu get permissions -A -o json
 	Returns all permissions the current user has for all namespaces, formatted as JSON.
+
+	> kpu get permissions -n foo --as my-user
+	Returns all permissions the user 'my-user' has for the namespace 'foo', formatted as a table.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		k, err := utils.LoadKubeconfig(k8sOptions.KubeconfigPath)
+		k, err := utils.LoadKubeconfigWithImpersonation(k8sOptions.KubeconfigPath, k8sOptions.ImpersonationConfig)
 		if err != nil {
 			utils.Fatal(1, "error loading kubeconfig: %s", err.Error())
 		}

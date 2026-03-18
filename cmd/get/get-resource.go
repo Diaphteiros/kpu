@@ -39,7 +39,7 @@ Examples:
 			slices.Filter(resourceNames[:0], resourceNames, func(s string) bool { return s != "" })
 		}
 
-		k, err := utils.LoadKubeconfig(k8sOptions.KubeconfigPath)
+		k, err := utils.LoadKubeconfigWithImpersonation(k8sOptions.KubeconfigPath, k8sOptions.ImpersonationConfig)
 		if err != nil {
 			utils.Fatal(1, "error loading kubeconfig: %s", err.Error())
 		}

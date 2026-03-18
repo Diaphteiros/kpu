@@ -28,4 +28,5 @@ func init() {
 	GetCmd.AddCommand(GetPermissionsCmd)
 
 	utils.AddDefaultK8sInteractionFlags(GetCmd.PersistentFlags(), k8sOptions)
+	utils.AddK8sImpersonationFlags(GetCmd.PersistentFlags(), k8sOptions)
 }
