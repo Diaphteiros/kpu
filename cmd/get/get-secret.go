@@ -14,7 +14,7 @@ import (
 	"github.com/Diaphteiros/kpu/pkg/utils"
 )
 
-// GetSecretCmd represents the 'get resource' command
+// GetSecretCmd represents the 'get secret' command
 var GetSecretCmd = &cobra.Command{
 	Use:     "secret",
 	Aliases: []string{"secrets", "sec", "s"},
@@ -53,7 +53,7 @@ Examples:
 			slices.Filter(resourceNames[:0], resourceNames, func(s string) bool { return s != "" })
 		}
 
-		k, err := utils.LoadKubeconfig(k8sOptions.KubeconfigPath)
+		k, err := utils.LoadKubeconfigWithImpersonation(k8sOptions.KubeconfigPath, k8sOptions.ImpersonationConfig)
 		if err != nil {
 			utils.Fatal(1, "error loading kubeconfig: %s", err.Error())
 		}
