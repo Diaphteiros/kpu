@@ -30,5 +30,5 @@ func (k *Kubeconfig) PatchAnnotations(ctx context.Context, obj client.Object, an
 	if err != nil {
 		return false, err
 	}
-	return true, k.Patch(ctx, obj, client.RawPatch(types.MergePatchType, []byte(fmt.Sprintf(`{"metadata":{"annotations":%s}}`, string(patchData)))))
+	return true, k.Patch(ctx, obj, client.RawPatch(types.MergePatchType, fmt.Appendf(nil, `{"metadata":{"annotations":%s}}`, string(patchData))))
 }

@@ -1,15 +1,16 @@
+// nolint:goconst
 package reconcile
 
 import (
 	"errors"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/sets"
-	"k8s.io/utils/strings/slices"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Diaphteiros/kpu/pkg/utils"
@@ -50,6 +51,16 @@ var (
 		},
 		"core.openmcp.cloud": {
 			Group:                    "core.openmcp.cloud",
+			ReconcileAnnotationKey:   "openmcp.cloud/operation",
+			ReconcileAnnotationValue: "reconcile",
+		},
+		"open-control-plane.io": {
+			Group:                    "open-control-plane.io",
+			ReconcileAnnotationKey:   "openmcp.cloud/operation",
+			ReconcileAnnotationValue: "reconcile",
+		},
+		"core.open-control-plane.io": {
+			Group:                    "core.open-control-plane.io",
 			ReconcileAnnotationKey:   "openmcp.cloud/operation",
 			ReconcileAnnotationValue: "reconcile",
 		},
@@ -101,7 +112,7 @@ Examples:
 			for _, arg := range args[1:] {
 				resourceNames = append(resourceNames, strings.Split(arg, ",")...)
 			}
-			slices.Filter(resourceNames[:0], resourceNames, func(s string) bool { return s != "" })
+			resourceNames = slices.DeleteFunc(resourceNames, func(s string) bool { return s == "" })
 		}
 
 		affectedResources, errs := k.ListResources(cmd.Context(), resourceTypes, resourceNames, utils.SCOPE_ALL, k8sOptions)
@@ -200,7 +211,7 @@ Examples:
 				if !quiet {
 					fmt.Printf("annotated %s with '%s: %s'\n", utils.ResourceIdentifier(obj), groupWR.ReconcileAnnotationKey, groupWR.ReconcileAnnotationValue)
 				}
-				errs = append(errs, k.Patch(cmd.Context(), obj, client.RawPatch(types.MergePatchType, []byte(fmt.Sprintf(`{"metadata":{"annotations":{"%s":"%s"}}}`, groupWR.ReconcileAnnotationKey, groupWR.ReconcileAnnotationValue)))))
+				errs = append(errs, k.Patch(cmd.Context(), obj, client.RawPatch(types.MergePatchType, fmt.Appendf(nil, `{"metadata":{"annotations":{"%s":"%s"}}}`, groupWR.ReconcileAnnotationKey, groupWR.ReconcileAnnotationValue))))
 			}
 		}
 		if err := errors.Join(errs...); err != nil {

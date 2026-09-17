@@ -3,10 +3,10 @@ package del
 import (
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/spf13/cobra"
-	"k8s.io/utils/strings/slices"
 
 	"github.com/Diaphteiros/kpu/pkg/utils"
 	"github.com/Diaphteiros/kpu/pkg/utils/cmdgroups"
@@ -52,7 +52,7 @@ Currently, the following deletion confirmation rules are implemented:
 			for _, arg := range args[1:] {
 				resourceNames = append(resourceNames, strings.Split(arg, ",")...)
 			}
-			slices.Filter(resourceNames[:0], resourceNames, func(s string) bool { return s != "" })
+			resourceNames = slices.DeleteFunc(resourceNames, func(s string) bool { return s == "" })
 		}
 
 		affectedResources, errs := k.ListResources(cmd.Context(), resourceTypes, resourceNames, utils.SCOPE_ALL, k8sOptions)

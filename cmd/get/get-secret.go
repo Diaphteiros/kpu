@@ -3,12 +3,12 @@ package get
 import (
 	"encoding/json"
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/spf13/cobra"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/utils/strings/slices"
 	"sigs.k8s.io/yaml"
 
 	"github.com/Diaphteiros/kpu/pkg/utils"
@@ -50,7 +50,7 @@ Examples:
 			for _, arg := range args {
 				resourceNames = append(resourceNames, strings.Split(arg, ",")...)
 			}
-			slices.Filter(resourceNames[:0], resourceNames, func(s string) bool { return s != "" })
+			resourceNames = slices.DeleteFunc(resourceNames, func(s string) bool { return s == "" })
 		}
 
 		k, err := utils.LoadKubeconfigWithImpersonation(k8sOptions.KubeconfigPath, k8sOptions.ImpersonationConfig)
