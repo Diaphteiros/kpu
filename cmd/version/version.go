@@ -2,13 +2,12 @@ package version
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/spf13/cobra"
 	"sigs.k8s.io/yaml"
 
+	"github.com/Diaphteiros/kpu/internal/version"
 	"github.com/Diaphteiros/kpu/pkg/utils"
-	staticversion "github.com/Diaphteiros/kpu/pkg/version"
 )
 
 // variables for holding the flags
@@ -43,21 +42,22 @@ Examples:
 	minor: "2"
 	platform: darwin/arm64`,
 	Run: func(cmd *cobra.Command, args []string) {
+		ver := version.Get()
 		switch output {
 		case utils.OUTPUT_TEXT:
-			fmt.Print(staticversion.Version.String())
+			cmd.Print(ver.String())
 		case utils.OUTPUT_JSON:
-			data, err := json.Marshal(staticversion.Version)
+			data, err := json.Marshal(ver)
 			if err != nil {
 				utils.Fatal(1, "error converting version to json: %s\n", err.Error())
 			}
-			fmt.Println(string(data))
+			cmd.Println(string(data))
 		case utils.OUTPUT_YAML:
-			data, err := yaml.Marshal(staticversion.Version)
+			data, err := yaml.Marshal(ver)
 			if err != nil {
 				utils.Fatal(1, "error converting version to yaml: %s\n", err.Error())
 			}
-			fmt.Print(string(data))
+			cmd.Print(string(data))
 		default:
 			utils.Fatal(1, "unknown output format '%s'", string(output))
 		}
