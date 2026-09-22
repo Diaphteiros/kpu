@@ -26,7 +26,7 @@ var (
 var FinalizeCmd = &cobra.Command{
 	Use:     "finalize [type1[,type2,...]] [name1,name2 [name3 ...]]",
 	Aliases: []string{"fin", "f"},
-	Args:    cobra.MinimumNArgs(1),
+	Args:    cobra.ArbitraryArgs,
 	GroupID: cmdgroups.ClusterInteraction,
 	Short:   "Remove finalizers from k8s resources",
 	Long: `This command can remove all or only specific finalizers from specific or all resources.
